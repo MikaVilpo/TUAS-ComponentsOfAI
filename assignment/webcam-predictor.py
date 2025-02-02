@@ -5,7 +5,7 @@ import collections
 
 # Load the saved model
 print ("Loading the model...")
-model = tf.keras.models.load_model('best_model.keras')
+model = tf.keras.models.load_model('EfficientNetB0.h5')
 
 # Class labels for predictions
 class_labels = ['Headtop', 'Helmet', 'Hoodie', 'No headwear']
