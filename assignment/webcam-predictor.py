@@ -35,13 +35,19 @@ try:
             x, y, width, height = face['box']
             x, y = max(0, x), max(0, y)
             
-            # Expand the region to capture headwear
-            top = max(0, y - int(height * 0.7))  # increased from 0.5 to 0.7
+            # Expand the region to capture headwear vertically
+            top = max(0, y - int(height * 0.7))
             bottom = y + height
-            head_region = frame[top:bottom, x:x + width]
 
-            # Draw the head region for debugging
-            cv2.rectangle(frame, (x, top), (x + width, bottom), (0, 255, 255), 2)
+            # Expand horizontally by adding a margin, e.g., 20% of the width on each side
+            margin_x = int(width * 0.2)
+            start_x = max(0, x - margin_x)
+            end_x = min(frame.shape[1], x + width + margin_x)
+
+            head_region = frame[top:bottom, start_x:end_x]
+
+            # Draw the expanded head region for debugging
+            cv2.rectangle(frame, (start_x, top), (end_x, bottom), (0, 255, 255), 2)
 
             # Resize and preprocess
             head_region = cv2.resize(head_region, target_size)
