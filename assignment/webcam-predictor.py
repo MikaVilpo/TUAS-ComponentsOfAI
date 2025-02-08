@@ -2,16 +2,22 @@ import cv2
 import numpy as np
 import tensorflow as tf
 import collections
+from mtcnn import MTCNN
+
+modelFileName = 'best_model.keras'
 
 # Load the saved model
 print ("Loading the model...")
-model = tf.keras.models.load_model('EfficientNetB0.h5')
+model = tf.keras.models.load_model(modelFileName)
 
 # Class labels for predictions
 class_labels = ['Headtop', 'Helmet', 'Hoodie', 'No headwear']
 
 # Print the model summary
 model.summary()
+
+# Load the MTCNN face detector
+detector = MTCNN()
 
 # Open the webcam
 print("Opening the webcam...")
@@ -33,26 +39,28 @@ try:
             print("Failed to capture video frame. Exiting...")
             break
 
-        # Preprocess the frame
-        resized_frame = cv2.resize(frame, target_size)  # Resize to match model input
-        img_array = np.expand_dims(resized_frame, axis=0) / 255.0  # Normalize and add batch dimension
+        # Detect faces
+        faces = detector.detect_faces(frame)
+        
+        for face in faces:
+            x, y, width, height = face['box']
+            x, y = max(0, x), max(0, y)  # Ensure no negative values
+            
+            # Crop region above face (approximate location for hat)
+            head_region = frame[max(0, y - int(height * 0.5)):y + height, x:x + width]
 
-        # Make prediction
-        predictions = model.predict(img_array, verbose=0)
-        class_index = np.argmax(predictions[0])
-        prediction_label = class_labels[class_index]
-        confidence = predictions[0][class_index] * 100
+            # Resize to 224x224 for model
+            head_region = cv2.resize(head_region, (224, 224))
+            head_region = np.expand_dims(head_region, axis=0) / 255.0  # Normalize
 
-        # Add prediction to the buffer
-        predictions_buffer.append(class_index)
+            # Predict headwear type
+            prediction = model.predict(head_region)
+            class_index = np.argmax(prediction)
+            label = class_labels[class_index]
 
-        # Smooth predictions using majority voting
-        smoothed_prediction = max(set(predictions_buffer), key=predictions_buffer.count)
-        smoothed_label = class_labels[smoothed_prediction]
-
-        # Display the prediction on the frame
-        cv2.putText(frame, f"{smoothed_label} ({confidence:.2f}%)", 
-                    (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (75, 75, 75), 2)
+            # Draw bounding box and label
+            cv2.rectangle(frame, (x, y), (x + width, y + height), (255, 0, 0), 2)
+            cv2.putText(frame, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
 
         # Show the frame
         cv2.imshow('Hat Detection', frame)
@@ -67,5 +75,5 @@ except KeyboardInterrupt:
 finally:
     # Release the webcam and close windows
     cap.release()
-#    cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
     print("Resources released, video window closed.")
