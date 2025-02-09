@@ -100,7 +100,12 @@ try:
             predictions_buffer.append(prediction[0])
             avg_prediction = np.mean(predictions_buffer, axis=0)
             class_index = np.argmax(avg_prediction)
-            label = class_labels[class_index]
+
+            # Calculate the confidence (as a percentage)
+            confidence = avg_prediction[class_index] * 100
+
+            # Create label with confidence, e.g. "Helmet: 85.34%"
+            label = f"{class_labels[class_index]}: {confidence:.2f}%"
 
             # Draw face bounding box and label
             cv2.rectangle(frame, (x, y), (x + width, y + height), (255, 0, 0), 2)
