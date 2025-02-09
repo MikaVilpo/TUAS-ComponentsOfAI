@@ -3,6 +3,7 @@
 This folder contains all the files required for the TUAS Components of AI assignment. Below is an overview of the file organization and their purposes:
 
 * [assignment_with_pretrained_model.ipynb](assignment_with_pretrained_model.ipynb): Model training notebook.
+* [comparing_keras_models.ipynb](comparing_keras_models.ipynb): Notebook comparing different Keras models for this usecase.
 * [webcam-collector.py](webcam-collector.py): Tool to collect images for training
 * [webcam-predictor.py](webcam-predictor.py): Script to follow webcam feed, detect faces and do predictions
 * [bestmodel.keras](bestmodel.keras): Trained model for hat detection
