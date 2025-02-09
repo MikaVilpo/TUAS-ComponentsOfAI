@@ -39,7 +39,8 @@ import tensorflow as tf
 import collections
 from mtcnn import MTCNN
 
-modelFileName = 'bestmodel.keras'
+#modelFileName = 'MobileNetV2.keras'
+modelFileName = 'Xception.keras'
 
 print("Loading the model...")
 model = tf.keras.models.load_model(modelFileName)
