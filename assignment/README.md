@@ -6,7 +6,9 @@ This folder contains all the files required for the TUAS Components of AI assign
 * [Train_Xception.ipynb](Train_Xception.ipynb): Model training notebook for model Xception.
 * [comparing_keras_models.ipynb](comparing_keras_models.ipynb): Notebook comparing different Keras models for this usecase.
 * [webcam-predictor.py](webcam-predictor.py): Script to follow webcam feed, detect faces and do predictions
-* [bestmodel.keras](bestmodel.keras): Trained model for hat detection
+* [MobileNetV2.keras](MobileNetV2.keras): Trained MobileNetV2 model for hat detection.
 * [dataset -folder](./dataset/): Folder containing training pictures classified to train, validation and test sets
 * [webcam-collector.py](webcam-collector.py): Tool to collect images for training
 * [clean_image_names.py](clean_image_names.py): Tool for fixing filenames in dataset.
+
+Xception.keras model file is too big to fit in repository (~250MB).
