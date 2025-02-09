@@ -1,0 +1,13 @@
+train: ./train/images
+val: ./valid/images
+test: ./test/images
+
+nc: 1
+names: ['Cap']
+
+roboflow:
+  workspace: object-detection-cwcjo
+  project: caps-gi4un
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/object-detection-cwcjo/caps-gi4un/dataset/2
