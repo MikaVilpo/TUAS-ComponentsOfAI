@@ -1,25 +1,44 @@
+"""
+Webcam Predictor
+================
+
+Description:
+------------
+This script captures video from a webcam and uses a pre-trained TensorFlow Keras model to classify headwear.
+It uses MTCNN for face detection to locate and crop a head region (with extra margins to capture headwear)
+from each video frame. The extracted region is then resized, processed, and passed to the model to obtain
+predictions for one of the following classes:
+    - Headtop
+    - Helmet
+    - Hoodie
+    - No headwear
+
+The script smooths predictions over a series of frames using a buffer to reduce noise before drawing
+the predicted label (with confidence percentage) and bounding box on the video output. The live feed is 
+displayed in a window titled 'Hat Detection'. The script terminates when the user presses the 'q' key.
+
+Usage:
+------
+- Ensure that the required libraries are installed: OpenCV, NumPy, TensorFlow, and MTCNN.
+- Update the 'modelFileName' variable with the path to your pre-trained model if needed.
+- Run the script; a webcam window should appear.
+- Press 'q' to exit the video feed.
+
+Dependencies:
+-------------
+- cv2 (OpenCV)
+- numpy
+- tensorflow
+- collections (for the predictions buffer)
+- mtcnn (for face detection)
+"""
+
+
 import cv2
 import numpy as np
 import tensorflow as tf
 import collections
 from mtcnn import MTCNN
-
-def resize_with_padding(image, target_size):
-    h, w = image.shape[:2]
-    target_w, target_h = target_size
-
-    # Calculate scale and new size while preserving aspect ratio
-    scale = min(target_w/w, target_h/h)
-    new_w, new_h = int(w*scale), int(h*scale)
-    resized = cv2.resize(image, (new_w, new_h))
-
-    # Create a new image and center the resized image
-    padded = np.zeros((target_h, target_w, 3), dtype=np.uint8)
-    x_offset = (target_w - new_w) // 2
-    y_offset = (target_h - new_h) // 2
-    padded[y_offset:y_offset+new_h, x_offset:x_offset+new_w] = resized
-
-    return padded
 
 modelFileName = 'bestmodel.keras'
 
