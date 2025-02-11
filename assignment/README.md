@@ -12,3 +12,4 @@ This folder contains all the files required for the TUAS Components of AI assign
 * [clean_image_names.py](clean_image_names.py): Tool for fixing filenames in dataset.
 
 Xception.keras model file is too big to fit in repository (~250MB).
+For TUAS users, model is available in: <https://tuas365.sharepoint.com/:u:/s/ComponentsandApplicationsofAI/EawlXzfbCY1FqojoBk10idgBbwLg5H1DBIE-ML0zoMDifg?e=vctnLT>
