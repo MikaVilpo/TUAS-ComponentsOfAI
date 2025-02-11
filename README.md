@@ -10,7 +10,7 @@ Course materials for support use are in [Support folder](./Support/)
 
 ## Group 1
 
-**Members**
+**Members** of the group
 
 * Jukka Pelto-aho
 * Teemu Tiainen
