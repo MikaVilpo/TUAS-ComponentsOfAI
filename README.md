@@ -8,7 +8,9 @@ Completed assigment is in [Assignment Folder](./assignment)
 
 Course materials for support use are in [Support folder](./Support/)
 
-## Group Members
+## Group 1
+
+**Members**
 
 * Jukka Pelto-aho
 * Teemu Tiainen
